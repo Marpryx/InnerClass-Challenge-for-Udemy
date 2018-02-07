@@ -1,8 +1,21 @@
+//Create a program that implements a playlist for songs
+//Create a Song class having Title and Duration for the song
+//The program will have an Album class containing a list of the songs
+//The albums will be stored  in an ArrayList
+//Songs from different albums can be added to the playlist and will appear in the list in order they are added
+//Once the songs have been added to the playlist, create a menu of the options
+//Quit, Scip, forward to the next song, skip backwards to a previous song, replay the current song
+//Print the playlist
+//The song must exist in an album before it can be added to the playlist
+//Remove the current song from the playlist
+
+
 package com.prykhodko;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import com.prykhodko.Album;
+import com.prykhodko.Song;
+
+import java.util.*;
 
 public class Main {
 
@@ -10,16 +23,116 @@ public class Main {
 
 
     private static void playTrack(LinkedList<Song> playList){
-        
+        Scanner scanner = new Scanner(System.in);
+        boolean quitTheProgramm = false;
+        boolean forward = true;
+
         ListIterator<Song> iterator = playList.listIterator();
         if(playList.size() == 0){
             System.out.println("The playlist is empty");
         }else{
             System.out.println(iterator.next().toString() + " is playing");
         }
+        printMenu();
+        while(!quitTheProgramm){
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch(choice){
+                case 0:
+                    System.out.println("Exit");
+                    quitTheProgramm = true;
+                    break;
+                case 1:
+                    if(!forward){
+                        if(iterator.hasNext()){
+                            iterator.next();
+                        }
+                        forward = true;
+                    }
+                    if(iterator.hasNext()) {
+                        System.out.println(iterator.next() + " is playing");
+                    }else{
+                            System.out.println("The end of the playlist");
+                            forward = false;
+                    }
+                    break;
+                case 2:
+                    if(forward) {
+                        if (iterator.hasPrevious()) {
+                            iterator.previous();
+                        }
+                        forward = false;
+                    }
+                    if(iterator.hasPrevious()){
+                        System.out.println(iterator.previous().toString() + " is playing");
+                    }else{
+                        System.out.println("The start of the playlist");
+                        forward = true;
+                    }
+
+                    break;
+
+                case 3:
+                    if(forward){
+                        if(iterator.hasPrevious()){
+                            System.out.println(iterator.previous() + " is playing");
+                            forward = false;
+                        }else{
+                            System.out.println("It is a start of the list");
+                        }
+                    }else{
+                        if(iterator.hasNext()){
+                            System.out.println(iterator.next() + " is replaying");
+                            forward = true;
+                        }else{
+                            System.out.println("The end of the list");
+                        }
+                    }
+                    break;
+
+                case 4:
+                    if(playList.size() > 0){
+                        iterator.remove();
+                        if(iterator.hasNext()){
+                            System.out.println(iterator.next() + " is playing");
+                        }else{
+                            System.out.println(iterator.previous() + " is playing");
+                        }
+                    }
+                    break;
+
+                case 5:
+                    printPlaylist(playList);
+                    break;
+                case 6:
+                    printMenu();
+                    break;
+            }
+        }
+
+
     }
 
 
+    private static void printMenu(){
+        System.out.println("=========================");
+        System.out.println("Press the menu:\n " +
+                "0 - Exit\n" +
+                "1 - play next song\n" +
+                "2 - play previous song\n" +
+                "3 - replay the current song\n" +
+                "4 - remove the song from the playlist\n" +
+                "5 - print the playlist\n " +
+                "6 - print the menu");
+    }
+
+    private static void printPlaylist(LinkedList<Song> playList) {
+        Iterator<Song> iterator = playList.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
 
 
 
