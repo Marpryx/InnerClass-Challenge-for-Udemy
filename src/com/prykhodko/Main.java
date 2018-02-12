@@ -19,10 +19,10 @@ import java.util.*;
 
 public class Main {
 
-    private static ArrayList<Album> albums = new ArrayList<Album>();
+    private static List<Album> albums = new ArrayList<Album>();
 
 
-    private static void playTrack(LinkedList<Song> playList){
+    private static void playTrack(List<Song> playList){
         Scanner scanner = new Scanner(System.in);
         boolean quitTheProgramm = false;
         boolean forward = true;
@@ -127,7 +127,7 @@ public class Main {
                 "6 - print the menu");
     }
 
-    private static void printPlaylist(LinkedList<Song> playList) {
+    private static void printPlaylist(List<Song> playList) {
         Iterator<Song> iterator = playList.iterator();
         while (iterator.hasNext()) {
             System.out.println(iterator.next());

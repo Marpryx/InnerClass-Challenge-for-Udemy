@@ -2,6 +2,7 @@ package com.prykhodko;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Album {
 
@@ -47,7 +48,7 @@ public class Album {
         return false;
     }
 
-    public boolean addSongToPlaylist(String songTitle, LinkedList<Song> playList){
+    public boolean addSongToPlaylist(String songTitle, List<Song> playList){
 
         Song findSong = findSong(songTitle);
         if(findSong != null){
