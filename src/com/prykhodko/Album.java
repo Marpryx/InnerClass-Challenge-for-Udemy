@@ -1,56 +1,58 @@
 package com.prykhodko;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Album {
 
-    private String albomTitle;
+    private String albumTitle;
     private String artist;
-    private ArrayList<Song> songs;
+//    private ArrayList<Song> songs;
+    private SongList songs;
 
 
     public Album(String albomTitle, String artist) {
-        this.albomTitle = albomTitle;
+        this.albumTitle = albomTitle;
         this.artist = artist;
-        this.songs = new ArrayList<Song>();
+        this.songs = new SongList();
+
+    }
+
+    public boolean addSong(String title, double duration){
+        return this.songs.add(new Song(title, duration));
     }
 
 
-    public Song findSong(String songTitle){
-        for(Song findSong: this.songs){
-            if(findSong.getTitle().equalsIgnoreCase(songTitle)){
-                return findSong;
-            }
+    private class SongList{
+        private ArrayList<Song> songs;
+
+        public SongList() {
+            this.songs = new ArrayList<Song>();
         }
-        return null;
-    }
 
-//The old way by using for loop
-//
-//    public Song findSong(String songTitle){
-//        for(int i=0; i<songs.size(); i++){
-//            Song findSong = songs.get(i);
-//            if(findSong.getTitle() == songTitle){
-//                return findSong;
-//            }
-//        }
-//        return null;
-//    }
+        public boolean add(Song song){
 
-    public boolean addSong(String songTitle, double durations){
-
-        if(findSong(songTitle) == null){
-            this.songs.add(new Song(songTitle, durations));
+            if(songs.contains(song)){
+                return false;
+            }
+            this.songs.add(song);
             return true;
         }
-        return false;
+
+        public Song findSong(String songTitle){
+            for(Song findSong: this.songs){
+                if(findSong.getTitle().equalsIgnoreCase(songTitle)){
+                    return findSong;
+                }
+            }
+            return null;
+        }
     }
+
 
     public boolean addSongToPlaylist(String songTitle, List<Song> playList){
 
-        Song findSong = findSong(songTitle);
+        Song findSong = this.songs.findSong(songTitle);
         if(findSong != null){
             playList.add(findSong);
             return true;
